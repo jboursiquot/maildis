@@ -116,15 +116,15 @@ describe 'Maildis::Validator' do
       expect {Maildis::Validator.validate_templates templates}.to raise_error Maildis::ValidationError, 'templates::plain not specified'
     end
     it 'should raise ValidationError if html template is not found' do
-      templates = {'html'=>'bad_file_path', 'plain'=>'spec/mailer/plain.erb'}
+      templates = {'html'=>'bad_file_path', 'plain'=>'spec/mailer/template.txt'}
       expect {Maildis::Validator.validate_templates templates}.to raise_error Maildis::ValidationError, 'templates::html not found'
     end
     it 'should raise ValidationError if plain template is not found' do
-      templates = {'html'=>'spec/mailer/html.erb', 'plain'=>'bad_file_path'}
+      templates = {'html'=>'spec/mailer/template.html', 'plain'=>'bad_file_path'}
       expect {Maildis::Validator.validate_templates templates}.to raise_error Maildis::ValidationError, 'templates::plain not found'
     end
     it 'should not raise ValidationError if html and plain templates are valid' do
-      templates = {'html'=>'spec/mailer/html.erb', 'plain'=>'spec/mailer/plain.erb'}
+      templates = {'html'=>'spec/mailer/template.html', 'plain'=>'spec/mailer/template.txt'}
       expect(Maildis::Validator.validate_templates templates).to be_nil
     end
   end

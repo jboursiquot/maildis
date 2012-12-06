@@ -11,32 +11,50 @@ module Maildis
     def validate(mailer_path)
       begin
         raise ValidationError, "File not found: #{mailer_path}" unless File.exists?(File.expand_path(mailer_path))
-        config = YAML.load(File.open(File.expand_path(mailer_path)))
+        config = load_config mailer_path
         Validator.validate_config config
         $stdout.puts 'Ok'
+        exit
       rescue ValidationError => e
-        $stderr.puts "Validation Error: #{e.message}"
+        abort "Validation Error: #{e.message}"
       rescue => e
-        $stderr.puts "Error: #{e.message}"
+        abort "Error: #{e.message}"
       end
     end
 
     desc 'test mailer', 'Dispatches the mailer through a local test SMTP server. Inbox viewable at http://localhost:1080.'
-    def test(mailer)
+    method_option :ping, aliases: '-p', desc: 'Attempts to connect to the SMTP server specified in the mailer configuration'
+    def test(mailer_path)
       begin
-        $stdout.puts 'TODO: Test Mailer'
+        config = load_config mailer_path
+        if !options['ping'].nil?
+          $stdout.puts "SMTP server reachable" if ServerUtils.server_reachable? config['smtp']['host'], config['smtp']['port']
+          exit
+        else
+          $stdout.puts 'TODO: Test Mailer'
+          exit 1
+        end
+        exit
+      rescue ValidationError => e
+        abort "Validation Error: #{e.message}"
       rescue => e
-        $stderr.puts e.message
+        abort "Error: " + e.message
       end
     end
 
     desc 'dispatch mailer', 'Dispatches the mailer through the SMTP server specified in the mailer configuration.'
-    def dispatch(mailer)
+    def dispatch(mailer_path)
       begin
         $stdout.puts 'TODO: Send Mailer'
       rescue => e
         $stderr.puts e.message
       end
+    end
+
+    private
+
+    def load_config(mailer_path)
+      YAML.load(File.open(File.expand_path(mailer_path)))
     end
 
   end
