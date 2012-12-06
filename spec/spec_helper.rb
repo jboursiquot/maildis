@@ -1,2 +1,2 @@
 %w{yaml pry}.each{ |lib| require lib}
-require_relative '../lib/maildis/validator'
+Dir[File.join(File.dirname(__FILE__), '../lib/maildis', '*')].each { |file| require file }
