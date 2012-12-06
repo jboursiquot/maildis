@@ -32,7 +32,7 @@ describe 'Maildis' do
         output.should include 'File not found'
       end
 
-      it "should respond with an invalid mailer configuration error when the mailer passed has a problem" do
+      it "should respond with a Validation Error when the mailer config passed in has a problem" do
         output = `./bin/maildis validate #{@invalid_mailer_path} 2>&1`
         output.should include 'Validation Error'
       end
@@ -45,21 +45,29 @@ describe 'Maildis' do
     end
 
   end
-=begin
-  context 'when sending a mailer' do
+
+  context 'when testing a mailer' do
 
     describe '#test' do
 
-      it 'should send all emails through the local SMTP server'
+      it "should check the specified SMTP server is reachable" do
+        output = `./bin/maildis test #{@valid_mailer_path} -p 2>&1`
+        output.should include 'SMTP server reachable'
+      end
+
+      it "should send all emails through the specified SMTP server" do
+        pending 'implement'
+      end
 
     end
 
-    describe '#dispatch' do
-
-      it 'should send all emails through the designated SMTP server'
-
-    end
 
   end
-=end
+
+  context 'when dispatching a mailer' do
+    describe '#dispatch' do
+      it 'should send all emails through the designated SMTP server'
+    end
+  end
+
 end

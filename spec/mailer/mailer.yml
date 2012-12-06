@@ -6,8 +6,8 @@ mailer:
   recipients:
     csv: "spec/mailer/recipients.csv"
   templates:
-    html: "spec/mailer/html.erb"
-    plain: "spec/mailer/plain.erb"
+    html: "spec/mailer/template.html"
+    plain: "spec/mailer/template.txt"
 smtp:
   host: "localhost"
   port: 1025
