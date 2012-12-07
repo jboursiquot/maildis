@@ -12,13 +12,13 @@ describe 'Maildis::TemplateRenderer' do
   describe '.render' do
 
     it 'should render an html template given the template and the merge fields' do
-      content = File.read @html_template
-      expect(Maildis::TemplateRenderer.render content, @merge_fields).to include @merge_fields.first.value
+      template = Maildis::TemplateLoader.load @html_template
+      expect(Maildis::TemplateRenderer.render template, @merge_fields).to include @merge_fields.first.value
     end
 
     it 'should render a plain text template given the template and the merge fields' do
-      content = File.read @plain_template
-      expect(Maildis::TemplateRenderer.render content, @merge_fields).to include @merge_fields.first.value
+      template = Maildis::TemplateLoader.load @plain_template
+      expect(Maildis::TemplateRenderer.render template, @merge_fields).to include @merge_fields.first.value
     end
 
   end

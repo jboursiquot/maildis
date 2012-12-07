@@ -10,8 +10,8 @@ module Maildis
         result = {sent: [], not_sent: []}
         recipients.each do |recipient|
           begin
-            html_body = TemplateRenderer.render(templates[:html].content, recipient.merge_fields)
-            plain_body = TemplateRenderer.render(templates[:plain].content, recipient.merge_fields) 
+            html_body = TemplateRenderer.render(templates[:html], recipient.merge_fields)
+            plain_body = TemplateRenderer.render(templates[:plain], recipient.merge_fields) 
             Pony.mail({
               to: recipient.email,
               from: sender.email,
