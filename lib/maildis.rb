@@ -11,8 +11,7 @@ module Maildis
     def validate(mailer_path)
       begin
         raise ValidationError, "File not found: #{mailer_path}" unless File.exists?(File.expand_path(mailer_path))
-        config = load_config mailer_path
-        Validator.validate_config config
+        load_config mailer_path
         $stdout.puts 'Ok'
         exit
       rescue ValidationError => e
@@ -22,29 +21,28 @@ module Maildis
       end
     end
 
-    desc 'test mailer', 'Dispatches the mailer through a local test SMTP server. Inbox viewable at http://localhost:1080.'
-    method_option :ping, aliases: '-p', desc: 'Attempts to connect to the SMTP server specified in the mailer configuration'
-    def test(mailer_path)
+    desc 'ping mailer', 'Attempts to connect to the SMTP server specified in the mailer configuration'
+    def ping(mailer_path)
       begin
         config = load_config mailer_path
-        if !options['ping'].nil?
-          $stdout.puts "SMTP server reachable" if ServerUtils.server_reachable? config['smtp']['host'], config['smtp']['port']
-          exit
-        else
-          $stdout.puts 'TODO: Test Mailer'
-          exit 1
-        end
+        $stdout.puts "SMTP server reachable" if ServerUtils.server_reachable? config['smtp']['host'], config['smtp']['port']
         exit
       rescue ValidationError => e
         abort "Validation Error: #{e.message}"
       rescue => e
-        abort "Error: " + e.message
+        abort "Error: #{e.message}"
       end
     end
 
     desc 'dispatch mailer', 'Dispatches the mailer through the SMTP server specified in the mailer configuration.'
     def dispatch(mailer_path)
       begin
+        subject = config['mailer']['subject']
+        recipients = load_recipients config['mailer']['recipients']['csv']
+        sender = load_sender config['mailer']['sender']
+        templates = load_templates config['mailer']['templates']
+        server = load_server config['smtp']
+        Dispatcher.dispatch suject, recipients, sender, templates, server
         $stdout.puts 'TODO: Send Mailer'
       rescue => e
         $stderr.puts e.message
@@ -54,7 +52,29 @@ module Maildis
     private
 
     def load_config(mailer_path)
-      YAML.load(File.open(File.expand_path(mailer_path)))
+      config = YAML.load(File.open(File.expand_path(mailer_path)))
+      Validator.validate_config config
+      config
+    end
+
+    def load_recipients(path)
+      Validator.validate_recipients path
+      RecipientParser.extract_recipients path
+    end
+
+    def load_sender(hash)
+      Validator.validate_sender hash
+      Sender.new hash['name'], hash['email']
+    end
+
+    def load_templates(hash)
+      Validator.validate_templates hash
+      [] << TemplateLoader.load(hash['html']) << TemplateLoader.load(hash['plain'])
+    end
+
+    def load_server(hash)
+      Validator.validate_smtp hash
+      SmtpServer.new hash['host'], hash['port'], hash['username'], hash['password']
     end
 
   end

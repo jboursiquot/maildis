@@ -16,5 +16,4 @@ module Maildis
 
   end
 
-
 end

@@ -8,14 +8,12 @@ describe 'Maildis' do
   end
 
   context 'when invoked without any task' do
-
     it 'should respond with a task list' do
       output = `./bin/maildis`
       output.should include 'validate'
-      output.should include 'test'
+      output.should include 'ping'
       output.should include 'dispatch'
     end
-
   end
 
   context 'when validating a mailer' do
@@ -46,27 +44,36 @@ describe 'Maildis' do
 
   end
 
-  context 'when testing a mailer' do
-
-    describe '#test' do
-
+  context 'when pinging the SMTP server specified in a mailer config' do
+    describe '#ping' do
       it "should check the specified SMTP server is reachable" do
-        output = `./bin/maildis test #{@valid_mailer_path} -p 2>&1`
+        output = `./bin/maildis ping #{@valid_mailer_path} 2>&1`
         output.should include 'SMTP server reachable'
       end
-
-      it "should send all emails through the specified SMTP server" do
-        pending 'implement'
-      end
-
     end
-
-
   end
 
   context 'when dispatching a mailer' do
+
+    before(:all) do
+      @config = YAML.load(File.open(@valid_mailer_path))
+
+      mailer = @config['mailer']
+      @subject = mailer['subject']
+      @recipients = Maildis::RecipientParser.extract_recipients mailer['recipients']['csv']
+      @sender = Maildis::Sender.new mailer['sender']['name'], mailer['sender']['email']
+      @templates = {html: Maildis::TemplateLoader.load(mailer['templates']['html']), plain: Maildis::TemplateLoader.load(mailer['templates']['plain'])}
+
+      smtp = @config['smtp']
+      @server = Maildis::SmtpServer.new smtp['host'], smtp['port'], smtp['username'], smtp['password']
+    end
+
     describe '#dispatch' do
-      it 'should send all emails through the designated SMTP server'
+      it 'should send all emails through the designated SMTP server' do
+        result = Maildis::Dispatcher.dispatch @subject, @recipients, @sender, @templates, @server
+        result.should be_an_instance_of Hash
+        result[:sent].size.should_not == 0
+      end
     end
   end
 
