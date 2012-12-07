@@ -37,15 +37,17 @@ module Maildis
     desc 'dispatch mailer', 'Dispatches the mailer through the SMTP server specified in the mailer configuration.'
     def dispatch(mailer_path)
       begin
+        config = load_config mailer_path
         subject = config['mailer']['subject']
-        recipients = load_recipients config['mailer']['recipients']['csv']
+        recipients = load_recipients config['mailer']['recipients']
         sender = load_sender config['mailer']['sender']
         templates = load_templates config['mailer']['templates']
         server = load_server config['smtp']
-        Dispatcher.dispatch suject, recipients, sender, templates, server
-        $stdout.puts 'TODO: Send Mailer'
+        result = Dispatcher.dispatch subject, recipients, sender, templates, server
+        $stdout.puts result
+        exit
       rescue => e
-        $stderr.puts e.message
+        abort e.message
       end
     end
 
@@ -57,9 +59,9 @@ module Maildis
       config
     end
 
-    def load_recipients(path)
-      Validator.validate_recipients path
-      RecipientParser.extract_recipients path
+    def load_recipients(hash)
+      Validator.validate_recipients hash
+      RecipientParser.extract_recipients hash['csv']
     end
 
     def load_sender(hash)
@@ -69,7 +71,7 @@ module Maildis
 
     def load_templates(hash)
       Validator.validate_templates hash
-      [] << TemplateLoader.load(hash['html']) << TemplateLoader.load(hash['plain'])
+      {html: TemplateLoader.load(hash['html']), plain: TemplateLoader.load(hash['plain'])}
     end
 
     def load_server(hash)
