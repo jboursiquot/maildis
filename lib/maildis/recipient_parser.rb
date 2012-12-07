@@ -58,6 +58,10 @@ module Maildis
 
       def recipient_instance(row)
         recipient = Recipient.new row['name'], row['email']
+        row.each do |key, value|
+          recipient.merge_fields << MergeField.new(key, value) unless %w{name email}.include? key
+        end
+        recipient
       end
 
       def parse_file(file_path)
