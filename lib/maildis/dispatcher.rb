@@ -23,6 +23,7 @@ module Maildis
             })
             result[:sent] << recipient
           rescue => e
+            require 'pry';binding.pry
             result[:not_sent] << {recipient: recipient, reason: e.message}
           end
         end
