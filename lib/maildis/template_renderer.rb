@@ -5,11 +5,12 @@ module Maildis
     class << self
 
       def render(template, merge_fields)
+        result = String.new(template.content)
         merge_fields.each do |mf|
-          token = /#{Regexp.quote('*|' + mf.field + '|*')}/ 
-          template.gsub!(token, mf.value)
+          token = /#{Regexp.quote('%' + mf.field + '%')}/
+          result.gsub!(token, mf.value)
         end
-        template
+        result
       end
 
     end

@@ -7,7 +7,7 @@ describe 'Maildis::Dispatcher' do
 
     mailer = @config['mailer']
     @subject = mailer['subject']
-    @recipients = Maildis::RecipientParser.extract_recipients mailer['recipients']['csv']
+    @recipients = [] << Maildis::RecipientParser.extract_recipients(mailer['recipients']['csv']).first
     @sender = Maildis::Sender.new mailer['sender']['name'], mailer['sender']['email']
     @templates = {html: Maildis::TemplateLoader.load(mailer['templates']['html']), plain: Maildis::TemplateLoader.load(mailer['templates']['plain'])}
 
