@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Maildis::VERSION
   gem.authors       = ["Johnny Boursiquot"]
   gem.email         = ["jboursiquot@gmail.com"]
-  gem.description   = %q{Maildis is a command line bulk email dispatching tool. It uses ERB templates and comma-separated values (CSV) files as a merge mechanism.}
-  gem.summary       = %q{Maildis is a command line bulk email dispatching tool. It uses ERB templates and comma-separated values (CSV) files as a merge mechanism. It relies on SMTP information you provide through your own configuration file. Subject, sender, path to CSV, path to ERB templates (HTML and plain) are all configurable through YAML.}
+  gem.description   = %q{Maildis is a command line bulk email dispatching tool. It supports HTML and plain text templates and CSVs for recipients and merge fields.}
+  gem.summary       = %q{Maildis is a command line bulk email dispatching tool. It supports HTML and plain text templates and CSVs for recipients and merge fields. It relies on SMTP information you provide through your own configuration file. Subject, sender, path to CSV and path to the templates are all configurable through YAML.}
   gem.homepage      = "https://github.com/jboursiquot/maildis"
 
   gem.files         = `git ls-files`.split($/)
