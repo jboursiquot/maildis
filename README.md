@@ -1,6 +1,6 @@
 # Maildis
 
-Maildis is a command line bulk email dispatching tool. It uses ERB templates and comma-separated values (CSV) files as a merge mechanism. It relies on SMTP information you provide through your own configuration file. Subject, sender, path to CSV, path to ERB templates (HTML and plain) are all configurable through YAML.
+Maildis is a command line bulk email dispatching tool. It supports HTML and plain text templates and CSVs for recipients and merge fields. It relies on SMTP information you provide through your own configuration file. Subject, sender, path to CSV and path to the templates are all configurable through YAML.
 
 ## Installation
 
