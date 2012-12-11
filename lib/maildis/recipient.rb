@@ -8,5 +8,15 @@ module Maildis
       @email = email
       @merge_fields = merge_fields
     end
+
+    def to_email
+      return "#{@name} <#{@email}>" if @name
+      @email
+    end
+
+    def to_s
+      "<Recipient #{name} | #{email}>"
+    end
+
   end
 end
