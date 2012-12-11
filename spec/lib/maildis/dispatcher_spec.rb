@@ -17,7 +17,12 @@ describe 'Maildis::Dispatcher' do
 
   describe '.dispatch' do
     it 'should send emails based on the given subject, recipients, sender, templates and server' do
-      result = Maildis::Dispatcher.dispatch @subject, @recipients, @sender, @templates, @server
+      result = Maildis::Dispatcher.dispatch({ subject: @subject,
+                                              recipients: @recipients,
+                                              sender: @sender,
+                                              templates: @templates,
+                                              server: @server
+                                            })
       result.should be_an_instance_of Hash
       result[:sent].size.should_not == 0
     end

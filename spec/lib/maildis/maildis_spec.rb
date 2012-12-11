@@ -70,7 +70,11 @@ describe 'Maildis' do
 
     describe '#dispatch' do
       it 'should send all emails through the designated SMTP server' do
-        result = Maildis::Dispatcher.dispatch @subject, @recipients, @sender, @templates, @server
+        result = Maildis::Dispatcher.dispatch({subject: @subject,
+                                              recipients: @recipients,
+                                              sender: @sender,
+                                              templates: @templates,
+                                              server: @server})
         result.should be_an_instance_of Hash
         result[:sent].size.should_not == 0
       end
