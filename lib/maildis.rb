@@ -46,17 +46,13 @@ module Maildis
       init_logger options[:verbose]
       begin
         config = load_config mailer_path
-        subject = config['mailer']['subject']
         recipients = load_recipients config['mailer']['recipients']
-        sender = load_sender config['mailer']['sender']
-        templates = load_templates config['mailer']['templates']
-        server = load_server config['smtp']
         info "Dispatching to #{recipients.size} recipients"
-        result = Dispatcher.dispatch({subject: subject,
+        result = Dispatcher.dispatch({subject: config['mailer']['subject'],
                                       recipients: recipients,
-                                      sender: sender,
-                                      templates: templates,
-                                      server: server,
+                                      sender: load_sender(config['mailer']['sender']),
+                                      templates: load_templates(config['mailer']['templates']),
+                                      server: load_server(config['smtp']),
                                       logger: @@logger})
         info "Dispatch complete with errors" if result[:not_sent].size > 0
         info "Dispatch complete without errors" if result[:not_sent].size == 0
