@@ -26,6 +26,11 @@ module Maildis
                             password: options[:server].password}
             })
             info "Sent: #{recipient.to_email}"
+
+            wait_time_seconds = 30
+            info "Pausing #{wait_time_seconds} before next send..."
+            sleep wait_time_seconds
+            
             result[:sent] << recipient
           rescue => e
             error "Error: #{recipient.to_email} | #{e.message}"
