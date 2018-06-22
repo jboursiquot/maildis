@@ -1,0 +1,5 @@
+This is a test mailer.
+
+The following merge field should be replaced with an actual URL: %url%
+
+Organization | Address | Unsubscribe Link
