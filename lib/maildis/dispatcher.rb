@@ -27,10 +27,10 @@ module Maildis
             })
             info "Sent: #{recipient.to_email}"
 
-            wait_time_seconds = 30
+            wait_time_seconds = 240
             info "Pausing #{wait_time_seconds} before next send..."
             sleep wait_time_seconds
-            
+
             result[:sent] << recipient
           rescue => e
             error "Error: #{recipient.to_email} | #{e.message}"
