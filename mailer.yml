@@ -1,5 +1,5 @@
 mailer:
-  subject: "Test Mailer"
+  subject: "Hello from Supervillain Software Group"
   sender:
     name: "Supervillains.io"
     email: "bryan@supervillains.io"

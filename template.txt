@@ -1,5 +1,8 @@
-This is a test mailer.
-
-The following merge field should be replaced with an actual URL: %url%
-
-Organization | Address | Unsubscribe Link
+%greeting%
+We are Supervillain Software Group, a team of expert software engineers that builds and scales custom software products. We work on mobile apps, web applications, complex data tooling, cloud architecture, or other types of systems. Our founder and CEO, Josh Jordan, is an enterprise software architect with a background in implementing massive-scale software products (he worked on the speech understanding technology that powers the Amazon Echo).
+%targeting% I’d love to connect you with Josh to discuss your specific needs. Just let me know when and I’ll set it up, or, if you prefer, you can schedule directly onto his calendar here: %calendar-link%
+Please reach out with any questions you may have. Looking forward to hearing from you!
+Bryan Clark
+Business Development
+Supervillain Software Group
+Solving the hardest technical challenges in the universe.
