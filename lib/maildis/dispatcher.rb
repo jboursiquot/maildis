@@ -17,8 +17,8 @@ module Maildis
               to: recipient.to_email,
               from: options[:sender].to_email,
               subject: options[:subject],
-              html_body: TemplateRenderer.render(options[:templates][:html], recipient.merge_fields),
-              body: TemplateRenderer.render(options[:templates][:plain], recipient.merge_fields),
+              html_body: TemplateRenderer.render(options[:templates][:html], recipient.merge_fields, recipient.name),
+              body: TemplateRenderer.render(options[:templates][:plain], recipient.merge_fields, recipient.name),
               via: :smtp,
               via_options: {address: options[:server].host,
                             port: options[:server].port,
@@ -27,13 +27,14 @@ module Maildis
             })
             info "Sent: #{recipient.to_email}"
 
-            wait_time_seconds = 181 + 60*(3*rand()^2 + 9*rand()^10)
+            wait_time_seconds = 181 + 60*(3*rand()**2 + 9*rand()**10)
             info "Pausing #{wait_time_seconds} before next send..."
             sleep wait_time_seconds
 
             result[:sent] << recipient
           rescue => e
             error "Error: #{recipient.to_email} | #{e.message}"
+            error e.backtrace.join("\n")
             result[:not_sent] << {recipient: recipient, reason: e.message}
           end
         end
