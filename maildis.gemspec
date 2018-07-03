@@ -27,7 +27,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rb-fsevent','~> 0.9.1'
   gem.add_development_dependency 'fivemat'
   gem.add_development_dependency 'pry'
-  gem.add_development_dependency 'pry-debugger'
   gem.add_development_dependency 'mailcatcher'
 
 end

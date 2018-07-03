@@ -1,0 +1,15 @@
+mailer:
+  subject: "Hello from Supervillain Software Group"
+  sender:
+    name: "Supervillains.io"
+    email: "bryan@supervillains.io"
+  recipients:
+    csv: "recipients.csv"
+  templates:
+    html: "template.html"
+    plain: "template.txt"
+smtp:
+  host: "smtp.zoho.com"
+  port: 587
+  username: "bryan@supervillains.io"
+  password: "pumpernickeltoast100!"
