@@ -29,7 +29,7 @@ module Maildis
 
             wait_time_seconds = 181 + 60*(3*rand()**2 + 9*rand()**10)
             info "Pausing #{wait_time_seconds} before next send..."
-            sleep wait_time_seconds
+            sleep wait_time_seconds unless recipient==options[:recipients].last
 
             result[:sent] << recipient
           rescue => e
