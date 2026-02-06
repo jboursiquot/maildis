@@ -1,9 +1,5 @@
 # Maildis 
 
-[![Code
-Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/jboursiquot/maildis) [![Dependency
-Status](https://gemnasium.com/jboursiquot/maildis.png)](https://gemnasium.com/jboursiquot/maildis) 
-
 Maildis is a command line bulk email dispatching tool. It supports HTML and plain text templates with merge tags and CSVs for specifying recipients. It relies on SMTP information you provide through your own configuration file. Subject, sender, path to CSV and path to the templates are all configurable through YAML.
 
 ## Installation
@@ -82,8 +78,8 @@ lists a _url_ column that will be used as a merge field.
 ### 3. Prepare your recipients CSV, for example:
 
     name,email,url
-    Johnny Boursiquot,jboursiquot@gmail.com,https://github.com/jboursiquot
-    Johnny Boursiquot,jboursiquot@maark.com,http://www.maark.com
+    John Doe,john@example.com,https://google.com
+    Jane Doe,jane@example.com,http://www.youtube.com
 
 ### 4. Validate your configuration
 
@@ -115,8 +111,8 @@ When _maildis_ processes your _dispatch_ request, a logfile (.maildis.log) is wr
     2012-12-11 20:18:10 -0500 INFO: Validate templates
     2012-12-11 20:18:10 -0500 INFO: Validate SMTP server localhost
     2012-12-11 20:18:10 -0500 INFO: Dispatching to 2 recipients
-    2012-12-11 20:18:10 -0500 INFO: Sent: Johnny Boursiquot <jboursiquot@gmail.com>
-    2012-12-11 20:18:10 -0500 INFO: Sent: Johnny Boursiquot <jboursiquot@maark.com>
+    2012-12-11 20:18:10 -0500 INFO: Sent: John Doe <john@example.com>
+    2012-12-11 20:18:10 -0500 INFO: Sent: Jane Doe <jane@example.com>
     2012-12-11 20:18:11 -0500 INFO: Dispatch complete without errors
 
 ## Local SMTP Server For Testing
